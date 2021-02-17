@@ -77,6 +77,8 @@ $1 = 3
 $2 = 2
 ```
 
+Note that the breakpoint is triggered before `uprobed_function` returns, so `ret` is yet to be updated.
+
 
 # Aknowledgements
 - [@williballenthin](https://twitter.com/williballenthin) for the idea!
