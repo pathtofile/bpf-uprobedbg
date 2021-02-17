@@ -36,10 +36,10 @@ int uprobed_function(int a, int b)
 
 Once the eBPF program is loaded, it will call this function in a loop:
 ```c++
-	for (i = 0; ; i++) {
-		ret = uprobed_function(i, i + 1);
-		sleep(1);
-	}
+for (i = 0; ; i++) {
+    ret = uprobed_function(i, i + 1);
+    sleep(1);
+}
 ```
 
 The eBPF Program attaches to the function looks like this:
