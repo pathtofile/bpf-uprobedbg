@@ -144,12 +144,12 @@ int main(int argc, char **argv)
 
 	int ret = 0;
 	for (i = 0; ; i++) {
+		/* trigger our BPF programs */
+		ret = uprobed_function(i, i + 1);
 		if (exiting) {
 			break;
 		}
-		/* trigger our BPF programs */
-		fprintf(stderr, ".");
-		ret = uprobed_function(i, i + 1);
+		printf("ret: %d\n", ret);
 		sleep(1);
 	}
 
